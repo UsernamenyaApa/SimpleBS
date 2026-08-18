@@ -3,7 +3,7 @@
         
         <!-- Tombol Kembali (Atas) -->
         <div class="mb-6">
-            <a href="javascript:history.back()" class="inline-flex items-center text-gray-500 hover:text-red-600 transition-colors">
+            <a href="{{ route('user.listlayanan') }}" class="inline-flex items-center text-gray-500 hover:text-green-600 transition-colors">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                 </svg>
@@ -16,31 +16,31 @@
             
             <!-- Card Header -->
             <div class="flex items-start gap-4 mb-8 border-b border-gray-100 pb-6">
-                <div class="w-12 h-12 bg-red-50 rounded-xl flex items-center justify-center flex-shrink-0 border border-red-100">
-                    <i class="fas fa-hands-helping text-red-600 text-xl"></i>
+                <div class="w-12 h-12 bg-lime-50 rounded-xl flex items-center justify-center flex-shrink-0 border border-lime-100">
+                    <i class="fas fa-user-check text-lime-600 text-xl"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold text-gray-900">Form Keterangan Tidak Mampu</h1>
-                    <p class="text-sm text-gray-500 mt-1">Isi data diri anda untuk penerbitan surat keterangan tidak mampu.</p>
+                    <h1 class="text-xl font-bold text-gray-900">Formulir Keterangan Berkelakuan Baik</h1>
+                    <p class="text-sm text-gray-500 mt-1">Surat keterangan ini biasanya digunakan sebagai pengantar untuk pembuatan SKCK atau keperluan administrasi lainnya.</p>
                 </div>
             </div>
 
-            <form action="{{ route('layanan.store', $slug ?? 'sktm') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('layanan.store', 'kelakuan-baik') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                <!-- SECTION 1: IDENTITAS PRIBADI -->
+                <!-- SECTION 1: DATA DIRI -->
                 <div class="mb-8">
-                    <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4 border-l-4 border-red-500 pl-3">Data Diri Pemohon</h3>
+                    <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4 border-l-4 border-lime-500 pl-3">Data Diri Pemohon</h3>
                     
                     <div class="grid grid-cols-1 gap-6">
                         <!-- NIK -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-900 mb-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
                                 NIK (Nomor Induk Kependudukan) <span class="text-red-500">*</span>
                             </label>
                             <input type="number" name="nik" required 
-                                   class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block p-3 transition-shadow" 
-                                   value="{{ old('nik', Auth::user()->nik ?? '') }}" placeholder="16 Digit NIK">
+                                   class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-lime-500 focus:border-lime-500 block p-3 transition-shadow" 
+                                   value="{{ old('nik', Auth::user()->nik ?? '') }}" placeholder="16 digit NIK">
                             <div class="mt-2 flex items-center gap-1 text-xs text-gray-500">
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 NIK terdiri dari 16 digit angka
@@ -49,99 +49,110 @@
 
                         <!-- Nama Lengkap -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-900 mb-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Nama Lengkap <span class="text-red-500">*</span>
                             </label>
                             <input type="text" name="nama" required 
-                                   class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block p-3 transition-shadow" 
+                                   class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-lime-500 focus:border-lime-500 block p-3 transition-shadow" 
                                    value="{{ old('nama', Auth::user()->name ?? '') }}" placeholder="Sesuai KTP">
                             <div class="mt-2 flex items-center gap-1 text-xs text-gray-500">
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 Nama harus sesuai dengan yang tertera di KTP
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Grid TTL & JK -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-900 mb-2">
-                                    Tempat/Tanggal Lahir <span class="text-red-500">*</span>
-                                </label>
-                                <input type="text" name="ttl" required 
-                                       class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block p-3 transition-shadow" 
-                                       value="{{ old('ttl') }}" placeholder="GARUT, 25-04-1995">
+                    <!-- Grid TTL & JK -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Tempat/Tanggal Lahir <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="ttl" required 
+                                   class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-lime-500 focus:border-lime-500 block p-3" 
+                                   value="{{ old('ttl') }}" placeholder="GARUT, 25-04-1995">
                                 <div class="mt-2 flex items-center gap-1 text-xs text-gray-500">
                                     <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                     Format: KOTA, DD-MM-YYYY
                                 </div>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-gray-900 mb-2">
-                                    Jenis Kelamin <span class="text-red-500">*</span>
-                                </label>
-                                <select name="jenis_kelamin" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block p-3 transition-shadow">
-                                    <option value="LAKI-LAKI" {{ old('jenis_kelamin') == 'LAKI-LAKI' ? 'selected' : '' }}>LAKI-LAKI</option>
-                                    <option value="PEREMPUAN" {{ old('jenis_kelamin') == 'PEREMPUAN' ? 'selected' : '' }}>PEREMPUAN</option>
-                                </select>
-                            </div>
                         </div>
 
-                        <!-- Alamat -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-900 mb-2">
-                                Alamat Lengkap <span class="text-red-500">*</span>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Jenis Kelamin <span class="text-red-500">*</span>
                             </label>
-                            <textarea name="alamat" rows="3" required 
-                                      class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block p-3 transition-shadow"
-                                      placeholder="Jl. Nama Jalan No. XX, RT/RW, Kelurahan, Kecamatan">{{ old('alamat') }}</textarea>
+                            <select name="jenis_kelamin" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-lime-500 focus:border-lime-500 block p-3">
+                                <option value="LAKI-LAKI" {{ old('jenis_kelamin') == 'LAKI-LAKI' ? 'selected' : '' }}>LAKI-LAKI</option>
+                                <option value="PEREMPUAN" {{ old('jenis_kelamin') == 'PEREMPUAN' ? 'selected' : '' }}>PEREMPUAN</option>
+                            </select>
                         </div>
                     </div>
+
+                    <!-- Grid Pekerjaan, Status, Agama, Kewarganegaraan -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Pekerjaan <span class="text-red-500">*</span></label>
+                            <input type="text" name="pekerjaan" required 
+                                   class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-lime-500 focus:border-lime-500 block p-3" 
+                                   value="{{ old('pekerjaan') }}" placeholder="Wiraswasta / Pelajar">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Status Perkawinan <span class="text-red-500">*</span></label>
+                            <select name="status" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-lime-500 focus:border-lime-500 block p-3">
+                                <option value="BELUM KAWIN">BELUM KAWIN</option>
+                                <option value="KAWIN">KAWIN</option>
+                                <option value="CERAI HIDUP">CERAI HIDUP</option>
+                                <option value="CERAI MATI">CERAI MATI</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Agama <span class="text-red-500">*</span></label>
+                            <select name="agama" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-lime-500 focus:border-lime-500 block p-3">
+                                <option value="ISLAM">ISLAM</option>
+                                <option value="KRISTEN">KRISTEN</option>
+                                <option value="KATOLIK">KATOLIK</option>
+                                <option value="HINDU">HINDU</option>
+                                <option value="BUDDHA">BUDDHA</option>
+                                <option value="KONGHUCU">KONGHUCU</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Kewarganegaraan <span class="text-red-500">*</span></label>
+                            <input type="text" name="kewarganegaraan" required 
+                                   class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-lime-500 focus:border-lime-500 block p-3" 
+                                   value="INDONESIA">
+                        </div>
+                    </div>
+
+                    <!-- Alamat -->
+                    <div class="mt-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Alamat Lengkap <span class="text-red-500">*</span>
+                        </label>
+                        <textarea name="alamat" rows="3" required 
+                                  class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-lime-500 focus:border-lime-500 block p-3"
+                                  placeholder="Nama Jalan, RT/RW, Dusun/Lingkungan">{{ old('alamat') }}</textarea>
+                    </div>
+                    
+                    <!-- Keperluan (Opsional, tapi biasanya perlu untuk surat keterangan) -->
+                    <div class="mt-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Keperluan</label>
+                        <textarea name="keperluan" rows="2" required 
+                                  class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-lime-500 focus:border-lime-500 block p-3"
+                                  placeholder="Contoh: PERSYARATAN MELAMAR PEKERJAAN">{{ old('keperluan') }}</textarea>
+                    </div>
                 </div>
 
-                <!-- Grid Pekerjaan - Status - Agama - Kewarganegaraan -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-900 mb-2">Pekerjaan</label>
-                        <input type="text" name="pekerjaan" required 
-                               class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block p-3 transition-shadow" 
-                               value="{{ old('pekerjaan') }}" placeholder="Buruh Harian Lepas">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-900 mb-2">Status Perkawinan</label>
-                        <select name="status" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block p-3 transition-shadow">
-                            <option value="BELUM KAWIN">BELUM KAWIN</option>
-                            <option value="KAWIN">KAWIN</option>
-                            <option value="CERAI HIDUP">CERAI HIDUP</option>
-                            <option value="CERAI MATI">CERAI MATI</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-900 mb-2">Agama</label>
-                        <select name="agama" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block p-3 transition-shadow">
-                            <option value="ISLAM">ISLAM</option>
-                            <option value="KRISTEN">KRISTEN</option>
-                            <option value="KATOLIK">KATOLIK</option>
-                            <option value="HINDU">HINDU</option>
-                            <option value="BUDDHA">BUDDHA</option>
-                            <option value="KONGHUCU">KONGHUCU</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-900 mb-2">Kewarganegaraan</label>
-                        <input type="text" name="kewarganegaraan" required 
-                               class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-red-500 focus:border-red-500 block p-3 transition-shadow" 
-                               value="INDONESIA">
-                    </div>
-                </div>
-
-                <!-- SECTION 3: LAMPIRAN -->
+                <!-- SECTION 2: LAMPIRAN -->
                 <div class="mb-8">
-                    <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4 border-l-4 border-red-500 pl-3">Berkas Pendukung</h3>
+                    <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4 border-l-4 border-lime-500 pl-3">Berkas Pendukung</h3>
                     
                     <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-4 flex items-start gap-3">
                         <i class="fas fa-info-circle text-blue-500 mt-0.5"></i>
-                        <p class="text-sm text-blue-700">Silakan upload Scan/Foto <strong>Kartu Keluarga (KK)</strong>, <strong>KTP</strong>, dan surat pengantar RT/RW sebagai syarat pengajuan.</p>
+                        <p class="text-sm text-blue-700">Silakan upload Scan/Foto <strong>KTP</strong> dan <strong>Kartu Keluarga (KK)</strong> sebagai syarat verifikasi.</p>
                     </div>
 
                     <!-- Preview daftar file -->
@@ -149,14 +160,15 @@
 
                     <div class="flex items-center justify-center w-full">
                         <label for="file-input"
-                            class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                            class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-2xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
 
                             <div class="flex flex-col items-center justify-center pt-5 pb-6">
                                 <svg class="w-8 h-8 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                                 </svg>
                                 <p class="mb-2 text-sm text-gray-500">
-                                    <span class="font-semibold text-red-600">Klik untuk upload</span> atau drag and drop
+                                    <span class="font-semibold text-lime-600">Klik untuk upload</span> atau drag and drop
                                 </p>
                                 <p class="text-xs text-gray-400">PDF, JPG, PNG (Maks. 2MB)</p>
                             </div>
@@ -167,12 +179,12 @@
                     </div>
                 </div>
 
-                <!-- Tombol Aksi -->
+                <!-- BUTTONS -->
                 <div class="flex flex-col sm:flex-row sm:justify-between gap-3 pt-4 border-t border-gray-100">
                     <a href="{{ route('user.listlayanan') }}" class="w-full sm:w-auto px-6 py-3 bg-gray-100 text-gray-700 rounded-xl font-medium text-center hover:bg-gray-200 transition-colors">
                         Batal
                     </a>
-                    <button type="submit" class="w-full sm:w-auto px-8 py-3 bg-red-600 text-white rounded-xl font-medium text-center hover:bg-red-700 shadow-lg shadow-indigo-200 transition-all flex items-center justify-center gap-2">
+                    <button type="submit" class="w-full sm:w-auto px-8 py-3 bg-lime-600 text-white rounded-xl font-medium text-center hover:bg-lime-700 shadow-lg shadow-lime-200 transition-all flex items-center justify-center gap-2">
                         <span>Kirim Pengajuan</span>
                         <i class="fas fa-paper-plane text-sm"></i>
                     </button>
@@ -182,9 +194,9 @@
         </div>
     </div>
 
-    <!-- MODAL SUCCESS POPUP (Tetap menggunakan warna hijau untuk sukses) -->
+    <!-- MODAL SUCCESS POPUP -->
     @if(session('success') || request('success'))
-    <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-60 backdrop-blur-sm transition-opacity duration-300 px-4">
+    <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-60 backdrop-blur-sm transition-opacity duration-300">
         <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full mx-4 relative shadow-2xl transform scale-100 transition-transform duration-300">
             
             <!-- Tombol Close (X) -->
@@ -222,7 +234,7 @@
                 </div>
             </div>
             
-            <!-- Box Kuning: Info Tambahan -->
+            <!-- Box Kuning: Info Tambahan (Sesuaikan Saja) -->
             <div class="bg-yellow-50 border border-yellow-100 rounded-2xl p-4 mb-8 flex items-start gap-3">
                 <div class="text-yellow-600 mt-0.5 flex-shrink-0">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -234,11 +246,12 @@
                 </p>
             </div>
     
-            <!-- Tombol Aksi Modal -->
+            <!-- Tombol Aksi -->
             <div class="flex flex-col sm:flex-row gap-3">
                 <a href="{{ route('user.listlayanan') }}" class="w-full sm:w-1/2 py-3 px-4 border border-gray-300 rounded-xl text-gray-700 font-medium text-center hover:bg-gray-50 focus:ring-4 focus:ring-gray-100 transition-all">
                     Nanti
                 </a>
+                <!-- Arahkan href ke route yang sesuai, misal dashboard atau history -->
                 <a href="{{ route('user.riwayat') }}" class="w-full sm:w-1/2 py-3 px-4 bg-green-600 text-white rounded-xl font-medium text-center hover:bg-green-700 focus:ring-4 focus:ring-green-200 shadow-lg shadow-green-200 transition-all">
                     Lihat Status
                 </a>
@@ -247,7 +260,7 @@
     </div>
     @endif
 
-    <!-- JS PREVIEW FILE -->
+    <!-- SCRIPT PREVIEW FILE -->
     <script>
         const input = document.getElementById("file-input");
         const preview = document.getElementById("file-preview");
@@ -265,14 +278,13 @@
             allFiles.forEach((file, index) => {
                 const item = document.createElement("div");
                 item.className = "text-sm text-gray-700 flex justify-between items-center bg-gray-50 border border-gray-200 px-4 py-3 rounded-lg";
-                
                 item.innerHTML = `
                     <div class="flex items-center gap-3">
-                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                        <i class="fas fa-file-alt text-gray-400"></i>
                         <span class="truncate max-w-[200px]">${file.name}</span>
                     </div>
-                    <button type="button" onclick="removeFile(${index})" class="text-red-500 hover:text-red-700 transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    <button type="button" onclick="removeFile(${index})" class="text-red-500 hover:text-red-700">
+                        <i class="fas fa-times"></i>
                     </button>
                 `;
                 preview.appendChild(item);

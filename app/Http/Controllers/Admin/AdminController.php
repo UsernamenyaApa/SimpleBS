@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use App\Models\PengajuanSurat;
 use App\Http\Controllers\Controller;
+use App\Traits\WhatsappTrait;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+    use WhatsappTrait;
+
     public function index()
     {
         // --- 1. Statistik Atas ---
@@ -97,16 +100,28 @@ class AdminController extends Controller
         $user->status = 'approved';
         $user->save();
 
-        // (Opsional) Kirim email notifikasi ke user bahwa akunnya sudah aktif
+        if ($user->no_hp) {
+            $pesan = "Halo *{$user->name}*,\n\nPermintaan aktivasi akun Anda telah *DISETUJUI*.\n\nAnda sekarang dapat login menggunakan email Anda.\n\nTerima kasih.";
+            $this->sendWhatsappNotification($user->no_hp, $pesan);
+        }
 
-        // Kembalikan ke halaman sebelumnya dengan pesan sukses
         return redirect()->back()->with('success', 'User ' . $user->name . ' telah disetujui.');
     }
 
-    public function rejectUser(User $user)
+    public function rejectUser(Request $request, User $user)
     {
-        // Keamanan ekstra: pastikan hanya user 'pending' yang bisa dihapus lewat jalur ini
         if ($user->status === 'pending') {
+            $request->validate([
+                'reason' => ['required', 'string', 'min:5'],
+            ]);
+
+            $reason = $request->input('reason');
+
+            if ($user->no_hp) {
+                $pesan = "Halo *{$user->name}*,\n\nPermintaan aktivasi akun Anda telah *DITOLAK*.\n\nAlasan: *{$reason}*\n\nSilakan periksa kembali data pendaftaran Anda atau hubungi admin jika perlu.";
+                $this->sendWhatsappNotification($user->no_hp, $pesan);
+            }
+
             $userName = $user->name;
             $user->delete(); // Hapus user dari database
 

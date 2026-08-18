@@ -122,8 +122,9 @@
                                                 {{-- TOLAK --}}
                                                 <form action="{{ route('verification.reject', $user) }}"
                                                       method="POST"
-                                                      onsubmit="return confirm('Hapus pendaftar ini?');">
+                                                      onsubmit="return confirmRejectUser(this);">
                                                     @csrf @method('DELETE')
+                                                    <input type="hidden" name="reason" value="" />
                                                     <button class="w-full px-3 py-1.5 text-xs bg-red-50 text-red-600 border border-red-300 rounded-md hover:bg-red-100 shadow">
                                                         <i class="fas fa-times mr-1"></i> Tolak
                                                     </button>
@@ -224,4 +225,20 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function confirmRejectUser(form) {
+            var reason = prompt('Masukkan alasan penolakan untuk dikirim ke WhatsApp pendaftar:');
+            if (reason === null) {
+                return false;
+            }
+            reason = reason.trim();
+            if (reason.length === 0) {
+                alert('Alasan penolakan tidak boleh kosong.');
+                return false;
+            }
+            form.querySelector('input[name="reason"]').value = reason;
+            return confirm('Tolak pendaftar ini dan kirim alasan ke WhatsApp?');
+        }
+    </script>
 </x-app-layout>

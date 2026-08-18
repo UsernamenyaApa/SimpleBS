@@ -27,7 +27,7 @@
                 @include('layouts.navigation.user')
             @endif
 
-            <div class="min-h-screen flex flex-col transition-all duration-300 {{ Auth::user()->role === 'admin' ? 'lg:ml-64' : '' }}">
+            <div class="min-h-screen flex flex-col transition-all duration-300 {{ Auth::user()->role === 'admin' ? 'pt-28 lg:pt-0 lg:ml-64' : 'pt-24 lg:pt-0' }}">
                 
                 {{-- <!-- Top Navbar (Header Putih) -->
                 <header class="bg-white border-b border-gray-200 h-16 sticky top-0 z-30 w-full flex items-center px-4 sm:px-6 lg:px-8 shadow-sm {{ Auth::user()->role === 'admin' ? '' : 'lg:hidden' }}">
@@ -53,6 +53,8 @@
                         </div>
                     </div>
                 </header> --}}
+                
+                <div class="h-20 sm:h-24 lg:hidden"></div>
 
                 <!-- Page Content Area -->
                 <main class="p-4 sm:p-6 lg:p-8">

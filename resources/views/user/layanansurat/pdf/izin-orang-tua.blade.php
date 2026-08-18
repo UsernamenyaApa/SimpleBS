@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>{{ $title ?? 'Surat Pengantar SKCK' }}</title>
+    <title>{{ $title ?? 'Surat Izin Orang Tua' }}</title>
     <style>
         body {
             font-family: "Times New Roman", Times, serif;
@@ -11,9 +11,9 @@
             margin: 0;
         }
 
-        /* Wrapper halaman → margin kiri kanan ditambah */
+        /* Wrapper halaman */
         .page-wrapper {
-            margin: 0 35px; /* Tambahkan margin kiri-kanan halaman */
+            margin: 0 35px;
         }
 
         /* Kop Surat */
@@ -36,7 +36,7 @@
         .header p {
             margin: 0;
             font-size: 10pt;
-            font-style: italic;
+            font-style: normal; 
         }
 
         .line-container {
@@ -48,26 +48,22 @@
         /* Judul */
         .title-container {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         .title-container u {
             font-weight: bold;
-            font-size: 12pt;
+            font-size: 14pt; /* Sedikit lebih besar sesuai contoh */
             text-transform: uppercase;
         }
-        .nomor-surat {
-            margin-top: 2px;
-        }
-
-        /* Konten → margin kiri kanan diperbesar lagi */
+        
+        /* Konten */
         .content {
             text-align: justify;
-            margin: 0 20px; /* Tambah margin kiri-kanan konten */
+            margin: 0 10px;
         }
 
-        /* Tabel Biodata */
+        /* Tabel Data */
         .table-data {
-            margin-left: 40px; /* Tambah jarak agar lebih ke tengah */
             width: 100%;
             border-collapse: collapse;
         }
@@ -83,41 +79,38 @@
             text-align: center;
         }
 
-        .closing {
-            margin-top: 15px;
-            text-indent: 30px;
-        }
-
         /* Tanda Tangan */
         .signature-container {
-            margin-top: 30px;
+            margin-top: 50px;
             width: 100%;
             display: table;
         }
         .signature-box {
             display: table-cell;
-            width: 50%;
+            width: 40%;
         }
         .signature-right {
             display: table-cell;
-            width: 50%;
+            width: 60%; /* Lebar area tanda tangan kanan */
             text-align: center;
             vertical-align: top;
+            padding-left: 50px;
         }
         .signature-name {
-            margin-top: 70px;
+            margin-top: 75px;
             font-weight: bold;
             text-decoration: underline;
             text-transform: uppercase;
         }
+        
+        /* Logo */
         .logo-container {
             position: absolute;
             left: 0;
             top: 0;
         }
-
         .logo-container img {
-            width: 80px;   /* Sesuaikan ukuran logo */
+            width: 80px;
             height: auto;
         }
     </style>
@@ -126,8 +119,8 @@
 
 <div class="page-wrapper">
 
+    {{-- KOP SURAT --}}
     <div class="header">
-
         <div class="logo-container">
             <img src="{{ public_path('logosurat.png') }}" alt="Logo Desa">
         </div>
@@ -135,20 +128,21 @@
         <h3><b>PEMERINTAH KABUPATEN GARUT</b></h3>
         <h3><b>KECAMATAN BAYONGBONG</b></h3>
         <h2>DESA BANJARSARI</h2>
-        <p><b>Alamat: Jln. Ciloa No. 09 Banjarsari Bayongbong Garut - 44162</b></p>
+        <p><b><i>Alamat: Jln. Ciloa No. 09 Banjarsari Bayongbong Garut 44162</i></b></p>
     </div>
 
     <div class="line-container"></div>
 
+    {{-- JUDUL SURAT --}}
     <div class="title-container">
-        <u>SURAT PENGANTAR PERMOHONAN SKCK</u>
-        <div class="nomor-surat">Nomor: {{ $pengajuan->nomor_surat ?? '333.1/..../VIII/Ds.-2021' }}</div>
+        <u>SURAT IZIN ORANG TUA</u>
     </div>
 
+    {{-- ISI SURAT --}}
     <div class="content">
+        <p>Yang bertanda tangan dibawah ini saya :</p>
 
-        <p>Yang bertanda tangan di bawah ini Kepala Desa Banjarsari Kecamatan Bayongbong Kabupaten Garut, dengan ini menerangkan bahwa :</p>
-
+        {{-- DATA ORANG TUA --}}
         <table class="table-data">
             <tr>
                 <td class="label">Nama</td>
@@ -156,71 +150,73 @@
                 <td style="text-transform: uppercase;">{{ $pengajuan->data['nama'] ?? '-' }}</td>
             </tr>
             <tr>
-                <td class="label">Tempat/Tanggal Lahir</td>
+                <td class="label">Tempat, Tgl Lahir</td>
                 <td class="colon">:</td>
-                <td style="text-transform: uppercase;">{{ $pengajuan->data['ttl'] ?? '-' }}</td>
-            </tr>
-            <tr>
-                <td class="label">Jenis Kelamin</td>
-                <td class="colon">:</td>
-                <td style="text-transform: uppercase;">{{ $pengajuan->data['jenis_kelamin'] ?? '-' }}</td>
+                <td style="text-transform: uppercase;">{{ $pengajuan->data['ttl_ortu'] ?? '-' }}</td>
             </tr>
             <tr>
                 <td class="label">Pekerjaan</td>
                 <td class="colon">:</td>
-                <td style="text-transform: uppercase;">{{ $pengajuan->data['pekerjaan'] ?? '-' }}</td>
-            </tr>
-            <tr>
-                <td class="label">Status</td>
-                <td class="colon">:</td>
-                <td style="text-transform: uppercase;">{{ $pengajuan->data['status'] ?? '-' }}</td>
-            </tr>
-            <tr>
-                <td class="label">Agama</td>
-                <td class="colon">:</td>
-                <td style="text-transform: uppercase;">{{ $pengajuan->data['agama'] ?? '-' }}</td>
-            </tr>
-            <tr>
-                <td class="label">NIK</td>
-                <td class="colon">:</td>
-                <td>{{ $pengajuan->data['nik'] ?? '-' }}</td>
-            </tr>
-            <tr>
-                <td class="label">Kewarganegaraan</td>
-                <td class="colon">:</td>
-                <td style="text-transform: uppercase;">{{ $pengajuan->data['kewarganegaraan'] ?? 'INDONESIA' }}</td>
+                <td style="text-transform: uppercase;">{{ $pengajuan->data['pekerjaan_ortu'] ?? '-' }}</td>
             </tr>
             <tr>
                 <td class="label">Alamat</td>
                 <td class="colon">:</td>
                 <td style="text-transform: uppercase;">
-                    {{ $pengajuan->data['alamat'] ?? '-' }}
+                    {{ $pengajuan->data['alamat_ortu'] ?? '-' }}
                 </td>
             </tr>
         </table>
 
+        <p>Selaku orang tua dari :</p>
+
+        {{-- DATA ANAK --}}
+        <table class="table-data">
+            <tr>
+                <td class="label">Nama</td>
+                <td class="colon">:</td>
+                <td style="text-transform: uppercase;">{{ $pengajuan->data['nama_anak'] ?? '-' }}</td>
+            </tr>
+            <tr>
+                <td class="label">Tempat, Tgl Lahir</td>
+                <td class="colon">:</td>
+                <td style="text-transform: uppercase;">{{ $pengajuan->data['ttl_anak'] ?? '-' }}</td>
+            </tr>
+            <tr>
+                <td class="label">Pekerjaan</td>
+                <td class="colon">:</td>
+                <td style="text-transform: uppercase;">{{ $pengajuan->data['pekerjaan_anak'] ?? '-' }}</td>
+            </tr>
+            <tr>
+                <td class="label">Alamat</td>
+                <td class="colon">:</td>
+                <td style="text-transform: uppercase;">
+                    {{ $pengajuan->data['alamat_anak'] ?? '-' }}
+                </td>
+            </tr>
+        </table>
+
+        {{-- PERNYATAAN --}}
         <p>
-            Yang tersebut di atas berdasarkan keterangan dari Ketua RT/RW setempat dan menurut data yang ada pada kami, adalah benar-benar warga kami, yang datang ke Kantor Desa kami memohon Surat Keterangan <b><i>SKCK</i></b> untuk melengkapi persyaratan :
+            Selanjutnya dengan ini, saya mengijinkan anak saya untuk {{ $pengajuan->data['keperluan'] ?? 'bekerja' }}.
         </p>
 
-        <div style="text-align: center; font-weight: bold; margin: 10px 0; text-transform: uppercase;">
-            <i>"{{ $pengajuan->data['keperluan'] ?? 'PEMBUATAN SKCK' }}"</i>
-        </div>
-
         <p>
-            Demikian surat keterangan ini kami buat, agar yang berkepentingan mengetahui dan untuk dipergunakan sebagaimana mestinya.
+            Demikian surat pernyataan ini saya buat dengan sebenarnya. Untuk dipergunakan sebagaimana mestinya.
         </p>
     </div>
 
+    {{-- TANDA TANGAN --}}
     <div class="signature-container">
-        <div class="signature-box"></div>
+        <div class="signature-box">
+            {{-- Kosong --}}
+        </div>
         <div class="signature-right">
-            <div>Banjarsari, {{ date('d F Y') }}</div>
-            <div style="margin-bottom: 5px;">a.n. Kepala Desa Banjarsari</div>
-            <div>Sekretaris Desa</div>
-
+            <div>Garut, {{ date('d F Y') }}</div>
+            <div style="margin-bottom: 5px;">Yang Membuat Pernyataan</div>
+            
             <div class="signature-name">
-                {{ $penandatangan ?? 'RESTY FITRIANA' }}
+                {{ $pengajuan->data['nama'] ?? '......................' }}
             </div>
         </div>
     </div>

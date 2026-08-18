@@ -123,63 +123,7 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     
-                    <!-- Surat 1: Domisili -->
-                    <a href="#" class="group bg-white p-6 rounded-2xl border border-gray-100 hover:border-[#00C07F] hover:shadow-md transition-all duration-300 flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center text-xl group-hover:bg-[#00C07F] group-hover:text-white transition-colors">
-                                <i class="fas fa-home"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-gray-900 group-hover:text-[#00C07F] transition-colors">Surat Keterangan Domisili</h3>
-                                <p class="text-xs text-gray-500 mt-1">Untuk membuktikan tempat tinggal</p>
-                            </div>
-                        </div>
-                        <i class="fas fa-chevron-right text-gray-300 group-hover:text-[#00C07F] transition-colors"></i>
-                    </a>
-
-                    <!-- Surat 2: Pengantar RT/RW -->
-                    <a href="#" class="group bg-white p-6 rounded-2xl border border-gray-100 hover:border-blue-500 hover:shadow-md transition-all duration-300 flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl group-hover:bg-blue-500 group-hover:text-white transition-colors">
-                                <i class="fas fa-file-alt"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-gray-900 group-hover:text-blue-500 transition-colors">Surat Pengantar RT/RW</h3>
-                                <p class="text-xs text-gray-500 mt-1">Surat pengantar dari RT/RW</p>
-                            </div>
-                        </div>
-                        <i class="fas fa-chevron-right text-gray-300 group-hover:text-blue-500 transition-colors"></i>
-                    </a>
-
-                    <!-- Surat 3: Keterangan Usaha -->
-                    <a href="#" class="group bg-white p-6 rounded-2xl border border-gray-100 hover:border-purple-500 hover:shadow-md transition-all duration-300 flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl group-hover:bg-purple-500 group-hover:text-white transition-colors">
-                                <i class="fas fa-store"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-gray-900 group-hover:text-purple-500 transition-colors">Surat Keterangan Usaha</h3>
-                                <p class="text-xs text-gray-500 mt-1">Untuk keperluan usaha</p>
-                            </div>
-                        </div>
-                        <i class="fas fa-chevron-right text-gray-300 group-hover:text-purple-500 transition-colors"></i>
-                    </a>
-
-                    <!-- Surat 4: Akta Kelahiran -->
-                    <a href="#" class="group bg-white p-6 rounded-2xl border border-gray-100 hover:border-pink-500 hover:shadow-md transition-all duration-300 flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center text-xl group-hover:bg-pink-500 group-hover:text-white transition-colors">
-                                <i class="fas fa-baby"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-gray-900 group-hover:text-pink-500 transition-colors">Akta Kelahiran</h3>
-                                <p class="text-xs text-gray-500 mt-1">Surat keterangan kelahiran</p>
-                            </div>
-                        </div>
-                        <i class="fas fa-chevron-right text-gray-300 group-hover:text-pink-500 transition-colors"></i>
-                    </a>
-
-                    <!-- Surat 5: Tidak Mampu -->
+                    <!-- Surat 1: SKTM -->
                     <a href="{{ route('layanan.show', 'sktm') }}" class="group bg-white p-6 rounded-2xl border border-gray-100 hover:border-orange-500 hover:shadow-md transition-all duration-300 flex items-center justify-between">
                         <div class="flex items-center gap-4">
                             <div class="w-12 h-12 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-xl group-hover:bg-orange-500 group-hover:text-white transition-colors">
@@ -193,18 +137,74 @@
                         <i class="fas fa-chevron-right text-gray-300 group-hover:text-orange-500 transition-colors"></i>
                     </a>
 
-                    <!-- Surat 6: Pindah -->
-                    <a href="#" class="group bg-white p-6 rounded-2xl border border-gray-100 hover:border-teal-500 hover:shadow-md transition-all duration-300 flex items-center justify-between">
+                    <!-- Surat SKCK -->
+                    <a href="{{ route('layanan.show', 'skck') }}" class="group bg-white p-6 rounded-2xl border border-gray-100 hover:border-yellow-500 hover:shadow-md transition-all duration-300 flex items-center justify-between">
                         <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 rounded-xl bg-teal-100 text-teal-600 flex items-center justify-center text-xl group-hover:bg-teal-500 group-hover:text-white transition-colors">
-                                <i class="fas fa-truck-moving"></i>
+                            <div class="w-12 h-12 rounded-xl bg-yellow-100 text-yellow-600 flex items-center justify-center text-xl group-hover:bg-yellow-500 group-hover:text-white transition-colors">
+                                <i class="fas fa-file-contract"></i>
                             </div>
                             <div>
-                                <h3 class="font-bold text-gray-900 group-hover:text-teal-500 transition-colors">Surat Keterangan Pindah</h3>
-                                <p class="text-xs text-gray-500 mt-1">Untuk keperluan pindah domisili</p>
+                                <h3 class="font-bold text-gray-900 group-hover:text-yellow-500 transition-colors">Surat Permohonan SKCK</h3>
+                                <p class="text-xs text-gray-500 mt-1">Surat pengantar permohoan SKCK</p>
                             </div>
                         </div>
-                        <i class="fas fa-chevron-right text-gray-300 group-hover:text-teal-500 transition-colors"></i>
+                        <i class="fas fa-chevron-right text-gray-300 group-hover:text-yellow-500 transition-colors"></i>
+                    </a>
+
+                    <!-- Surat 3: Keterangan Usaha -->
+                    <a href="{{ route('layanan.show', 'usaha') }}" class="group bg-white p-6 rounded-2xl border border-gray-100 hover:border-purple-500 hover:shadow-md transition-all duration-300 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl group-hover:bg-purple-500 group-hover:text-white transition-colors">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900 group-hover:text-purple-500 transition-colors">Surat Keterangan Usaha</h3>
+                                <p class="text-xs text-gray-500 mt-1">Untuk keperluan usaha</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-300 group-hover:text-purple-500 transition-colors"></i>
+                    </a>
+
+                    <!-- Surat 4: Surat Keterangan Domisili Usaha -->
+                    <a href="{{ route('layanan.show', 'domisili-usaha') }}" class="group bg-white p-6 rounded-2xl border border-gray-100 hover:border-indigo-500 hover:shadow-md transition-all duration-300 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl group-hover:bg-indigo-500 group-hover:text-white transition-colors">
+                                <i class="fas fa-store-alt"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900 group-hover:text-indigo-500 transition-colors">Surat Keterangan Domisili Usaha</h3>
+                                <p class="text-xs text-gray-500 mt-1">Surat keterangan Domisili Usaha anda</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-300 group-hover:text-indigo-500 transition-colors"></i>
+                    </a>
+
+                    <!-- Surat 5: Surat izin orang tua -->
+                    <a href="{{ route('layanan.show', 'izin-orang-tua') }}" class="group bg-white p-6 rounded-2xl border border-gray-100 hover:border-sky-500 hover:shadow-md transition-all duration-300 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center text-xl group-hover:bg-sky-500 group-hover:text-white transition-colors">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900 group-hover:text-sky-500 transition-colors">Surat Izin Orang Tua</h3>
+                                <p class="text-xs text-gray-500 mt-1">Untuk keperluan daftar kerja dan lainnya.</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-300 group-hover:text-sky-500 transition-colors"></i>
+                    </a>
+
+                    <!-- Surat 6: Berkelakuan baik -->
+                    <a href="{{ route('layanan.show', 'kelakuan-baik') }}" class="group bg-white p-6 rounded-2xl border border-gray-100 hover:border-lime-500 hover:shadow-md transition-all duration-300 flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-lime-100 text-lime-600 flex items-center justify-center text-xl group-hover:bg-lime-500 group-hover:text-white transition-colors">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-gray-900 group-hover:text-lime-500 transition-colors">Surat Keterangan Berkelakuan Baik</h3>
+                                <p class="text-xs text-gray-500 mt-1">Untuk keperluan Kerja dan lainnya.</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-gray-300 group-hover:text-lime-500 transition-colors"></i>
                     </a>
 
                 </div>

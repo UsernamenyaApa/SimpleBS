@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Traits\WhatsappTrait;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,6 +15,8 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
+    use WhatsappTrait;
+
     /**
      * Display the registration view.
      */
@@ -48,6 +51,11 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
+
+        if ($user->no_hp) {
+            $pesan = "Halo *{$user->name}*,\n\nRegistrasi Anda telah berhasil dan sedang menunggu persetujuan admin.\n\nSetelah disetujui, Anda akan menerima notifikasi WhatsApp lagi.\n\nTerima kasih telah mendaftar.";
+            $this->sendWhatsappNotification($user->no_hp, $pesan);
+        }
 
         // HAPUS BARIS Auth::login($user);
         // Kita tidak ingin user langsung login

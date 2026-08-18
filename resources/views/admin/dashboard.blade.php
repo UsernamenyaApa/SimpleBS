@@ -8,10 +8,10 @@
         </div>
     </x-slot>
 
-    <div class="">
-        <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+    <div class="pt-1 sm:pt-2">
+        <div class="max-w-6xl mx-auto px-0 sm:px-6 lg:px-8">
             
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
                 
                 <div class="lg:col-span-2 flex flex-col gap-8">
                     
@@ -87,11 +87,11 @@
                     <div class="bg-white shadow-sm rounded-2xl border border-gray-100 p-6 flex-1">
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="text-lg font-bold text-gray-900">Pengajuan Surat Masuk</h3>
-                            <div class="relative text-gray-400 focus-within:text-gray-600">
+                            <div class="relative text-gray-400 focus-within:text-gray-600 w-full max-w-xs sm:w-64">
                                 <span class="absolute inset-y-0 left-0 flex items-center pl-3">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                                 </span>
-                                <input type="text" placeholder="Cari" class="pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-64 placeholder-gray-400">
+                                <input type="text" placeholder="Cari" class="pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-full placeholder-gray-400">
                             </div>
                         </div>
 
@@ -109,19 +109,19 @@
                                 </thead>
                                 <tbody class="divide-y divide-gray-100">
                                     @forelse($recentSurats as $surat)
-                                    <tr class="bg-white hover:bg-gray-50 transition-colors duration-150">
-                                        <td class="px-4 py-5 font-medium text-gray-900">
+                                    <tr class="bg-white hover:bg-gray-50 transition-colors duration-150 align-top">
+                                        <td class="px-4 py-5 font-medium text-gray-900 whitespace-nowrap">
                                             #{{ $surat->id }}
                                         </td>
-                                        <td class="px-4 py-5">
-                                            <div class="flex items-center">
-                                                <img class="h-9 w-9 rounded-full object-cover mr-3 border border-gray-200" 
+                                        <td class="px-4 py-5 min-w-[220px]">
+                                            <div class="flex items-start min-w-0">
+                                                <img class="h-9 w-9 rounded-full object-cover mr-3 border border-gray-200 shrink-0" 
                                                      src="https://ui-avatars.com/api/?name={{ urlencode($surat->user->name) }}&background=random&color=fff" 
                                                      alt="{{ $surat->user->name }}">
-                                                <span class="font-bold text-gray-900">{{ $surat->user->name }}</span>
+                                                <span class="font-bold text-gray-900 break-words leading-snug">{{ $surat->user->name }}</span>
                                             </div>
                                         </td>
-                                        <td class="px-4 py-5 font-medium text-gray-900">
+                                        <td class="px-4 py-5 font-medium text-gray-900 min-w-[180px] break-words">
                                             {{ $surat->title }}
                                         </td>
                                         <td class="px-4 py-5 font-medium text-gray-900">
@@ -143,7 +143,7 @@
                                             @endif
                                         </td>
                                         <td class="px-4 py-5">
-                                            <a href="{{ route('admin.pengajuan.index') }}" class="text-green-500 hover:text-green-700 font-bold underline text-sm">Lihat Detail</a>
+                                            <a href="{{ route('admin.pengajuan.index') }}" class="text-green-500 hover:text-green-700 font-bold underline text-sm whitespace-nowrap">Lihat Detail</a>
                                         </td>
                                     </tr>
                                     @empty
@@ -172,9 +172,9 @@
                                     <p class="text-xs text-gray-400 mt-0.5">{{ $account->nik }}</p>
                                 </div>
                             </div>
-                            <div class="flex flex-col items-end">
+                            <div class="flex flex-col items-end min-w-fit">
                                 <p class="text-xs text-gray-400 font-medium mb-2">{{ $account->created_at->format('d M') }}</p>
-                                <a href="{{ route('verification.list') }}" class="text-xs text-green-500 font-bold underline hover:text-green-700">Lihat Detail</a>
+                                <a href="{{ route('verification.list') }}" class="text-xs text-green-500 font-bold underline hover:text-green-700 whitespace-nowrap">Lihat Detail</a>
                             </div>
                         </div>
                         @empty

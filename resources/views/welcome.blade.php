@@ -22,19 +22,23 @@
     <body class="antialiased text-gray-600 bg-white">
 
         <!-- NAVBAR -->
-        <nav class="fixed w-full z-50 bg-transparent transition-all duration-300 pt-6" x-data="{ scrolled: false }" @scroll.window="scrolled = (window.pageYOffset > 20)" :class="{ 'bg-white/90 backdrop-blur-md shadow-sm py-4': scrolled, 'pt-6': !scrolled }">
+        <!-- NAVBAR -->
+        <nav class="fixed w-full z-50 bg-transparent transition-all duration-300 pt-6" 
+             x-data="{ scrolled: false, mobileMenuOpen: false }" 
+             @scroll.window="scrolled = (window.pageYOffset > 20)" 
+             :class="{ 'bg-white/90 backdrop-blur-md shadow-sm py-4': scrolled || mobileMenuOpen, 'pt-6': !scrolled && !mobileMenuOpen }">
+            
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center">
                     <!-- Logo -->
                     <div class="flex-shrink-0 flex items-center gap-3">
-                        <!-- Icon Logo (Simulasi Logo di Gambar) -->
-                        <img src="{{ asset('images/asset/logo-coloured.png') }}" alt="Logo SimpelBS" class="w-12 h-12 object-contain">
+                        <img src="{{ asset('images/asset/Logo-coloured.png') }}" alt="Logo SimpelBS" class="w-12 h-12 object-contain">
                         <div class="leading-tight">
                             <span class="font-bold text-xl text-gray-900 block">SimpelBS</span>
                             <span class="text-[10px] text-gray-500 uppercase tracking-wider font-medium pl-0.5">Sistem Pelayanan Banjarsari</span>
                         </div>
                     </div>
-
+        
                     <!-- Right Side Buttons -->
                     <div class="hidden md:flex items-center gap-4">
                         @if (Route::has('login'))
@@ -46,14 +50,34 @@
                             @endif
                         @endauth
                     </div>
-
+        
                     <!-- Mobile Menu Button -->
                     <div class="md:hidden flex items-center">
-                        <button class="text-gray-500 hover:text-green-700 focus:outline-none p-2">
-                            <i class="fas fa-bars text-2xl"></i>
+                        <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-gray-500 hover:text-green-700 focus:outline-none p-2">
+                            <i class="fas text-2xl" :class="mobileMenuOpen ? 'fa-times' : 'fa-bars'"></i>
                         </button>
                     </div>
                 </div>
+            </div>
+        
+            <!-- Mobile Menu Container -->
+            <div x-show="mobileMenuOpen" 
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 transform -translate-y-2"
+                 x-transition:enter-end="opacity-100 transform translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 transform translate-y-0"
+                 x-transition:leave-end="opacity-0 transform -translate-y-2"
+                 class="md:hidden bg-white border-t border-gray-100 mt-4 px-4 pt-4 pb-6 flex flex-col gap-4 shadow-xl">
+                
+                @if (Route::has('login'))
+                    @auth
+                        <a href="{{ url('/dashboard') }}" class="block text-center px-6 py-3 text-sm font-bold text-white bg-green-700 rounded-lg hover:bg-green-800 transition shadow-md">Dashboard</a>
+                    @else
+                        <a href="{{ route('register') }}" class="block text-center px-6 py-3 text-sm font-bold text-gray-600 bg-gray-50 border border-gray-200 rounded-lg hover:text-green-600 hover:border-green-600 transition">Daftar</a>
+                        <a href="{{ route('login') }}" class="block text-center px-6 py-3 text-sm font-bold text-white bg-green-700 rounded-lg hover:bg-green-800 transition shadow-md">Masuk</a>
+                    @endif
+                @endauth
             </div>
         </nav>
 
@@ -96,9 +120,15 @@
                         </p>
                         
                         <!-- CTA Button (Hijau Tua, Kotak Rounded) -->
-                        <div class="pt-2">
-                            <a href="{{ route('login') }}" class="inline-flex justify-center items-center px-8 py-4 text-sm font-bold text-white bg-green-700 rounded-xl shadow-xl shadow-green-900/20 hover:bg-green-800 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto">
+                        <div class="pt-2 flex flex-col sm:flex-row items-center gap-4">
+                            <!-- Tombol Utama -->
+                            <a href="{{ route('login') }}" class="inline-flex justify-center items-center px-8 py-4 text-sm font-bold text-white bg-green-700 rounded-xl shadow-xl shadow-green-900/20 hover:bg-green-800 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto shrink-0">
                                 Mulai Ajukan Surat
+                            </a>
+                            
+                            <!-- Tombol Panduan Pengguna -->
+                            <a href="{{ route('panduan.pengguna') }}" class="inline-flex justify-center items-center px-8 py-4 text-sm font-bold text-yellow-800 bg-yellow-100 border-2 border-yellow-300 rounded-xl hover:bg-yellow-200 hover:border-yellow-500 hover:-translate-y-1 transition-all duration-300 w-full sm:w-auto shadow-sm">
+                                <i class="fas fa-book-open mr-2 text-xs"></i> Panduan Pengguna
                             </a>
                         </div>
                     </div>

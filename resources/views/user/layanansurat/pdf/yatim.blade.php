@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>{{ $title ?? 'Surat Pengantar SKCK' }}</title>
+    <title>{{ $title ?? 'Surat Keterangan Yatim' }}</title>
     <style>
         body {
             font-family: "Times New Roman", Times, serif;
@@ -11,9 +11,9 @@
             margin: 0;
         }
 
-        /* Wrapper halaman → margin kiri kanan ditambah */
+        /* Wrapper halaman */
         .page-wrapper {
-            margin: 0 35px; /* Tambahkan margin kiri-kanan halaman */
+            margin: 0 35px;
         }
 
         /* Kop Surat */
@@ -36,7 +36,7 @@
         .header p {
             margin: 0;
             font-size: 10pt;
-            font-style: italic;
+            font-style: normal; 
         }
 
         .line-container {
@@ -57,19 +57,22 @@
         }
         .nomor-surat {
             margin-top: 2px;
+            text-transform: uppercase;
         }
 
-        /* Konten → margin kiri kanan diperbesar lagi */
+        /* Konten */
         .content {
             text-align: justify;
-            margin: 0 20px; /* Tambah margin kiri-kanan konten */
+            margin: 0 20px;
         }
 
         /* Tabel Biodata */
         .table-data {
-            margin-left: 40px; /* Tambah jarak agar lebih ke tengah */
+            margin-left: 40px; 
             width: 100%;
             border-collapse: collapse;
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
         .table-data td {
             vertical-align: top;
@@ -83,22 +86,16 @@
             text-align: center;
         }
 
-        .closing {
-            margin-top: 15px;
-            text-indent: 30px;
-        }
-
         /* Tanda Tangan */
         .signature-container {
-            margin-top: 30px;
+            margin-top: 50px;
             width: 100%;
             display: table;
         }
-        .signature-box {
-            display: table-cell;
-            width: 50%;
+        .signature-space {
+            height: 0px;
         }
-        .signature-right {
+        .signature-box {
             display: table-cell;
             width: 50%;
             text-align: center;
@@ -110,14 +107,15 @@
             text-decoration: underline;
             text-transform: uppercase;
         }
+        
+        /* Logo */
         .logo-container {
             position: absolute;
             left: 0;
             top: 0;
         }
-
         .logo-container img {
-            width: 80px;   /* Sesuaikan ukuran logo */
+            width: 80px;
             height: auto;
         }
     </style>
@@ -126,8 +124,8 @@
 
 <div class="page-wrapper">
 
+    {{-- KOP SURAT --}}
     <div class="header">
-
         <div class="logo-container">
             <img src="{{ public_path('logosurat.png') }}" alt="Logo Desa">
         </div>
@@ -135,18 +133,19 @@
         <h3><b>PEMERINTAH KABUPATEN GARUT</b></h3>
         <h3><b>KECAMATAN BAYONGBONG</b></h3>
         <h2>DESA BANJARSARI</h2>
-        <p><b>Alamat: Jln. Ciloa No. 09 Banjarsari Bayongbong Garut - 44162</b></p>
+        <p><b><i>Alamat: Jln. Ciloa No. 09 Banjarsari Bayongbong Garut 44162</i></b></p>
     </div>
 
     <div class="line-container"></div>
 
+    {{-- JUDUL SURAT --}}
     <div class="title-container">
-        <u>SURAT PENGANTAR PERMOHONAN SKCK</u>
-        <div class="nomor-surat">Nomor: {{ $pengajuan->nomor_surat ?? '333.1/..../VIII/Ds.-2021' }}</div>
+        <u>SURAT KETERANGAN YATIM</u>
+        <div class="nomor-surat">NOMOR : {{ $pengajuan->nomor_surat ?? '474.2/....../ VII /DS-'.date('Y') }}</div>
     </div>
 
+    {{-- ISI SURAT --}}
     <div class="content">
-
         <p>Yang bertanda tangan di bawah ini Kepala Desa Banjarsari Kecamatan Bayongbong Kabupaten Garut, dengan ini menerangkan bahwa :</p>
 
         <table class="table-data">
@@ -200,27 +199,39 @@
         </table>
 
         <p>
-            Yang tersebut di atas berdasarkan keterangan dari Ketua RT/RW setempat dan menurut data yang ada pada kami, adalah benar-benar warga kami, yang datang ke Kantor Desa kami memohon Surat Keterangan <b><i>SKCK</i></b> untuk melengkapi persyaratan :
-        </p>
-
-        <div style="text-align: center; font-weight: bold; margin: 10px 0; text-transform: uppercase;">
-            <i>"{{ $pengajuan->data['keperluan'] ?? 'PEMBUATAN SKCK' }}"</i>
-        </div>
-
-        <p>
-            Demikian surat keterangan ini kami buat, agar yang berkepentingan mengetahui dan untuk dipergunakan sebagaimana mestinya.
+            Yang tersebut diatas berdasarkan keterangan dari RT/RW setempat dan menurut data yang ada pada kantor kami, adalah benar-benar warga kami.
         </p>
     </div>
 
+    {{-- TANDA TANGAN --}}
     <div class="signature-container">
-        <div class="signature-box"></div>
-        <div class="signature-right">
-            <div>Banjarsari, {{ date('d F Y') }}</div>
-            <div style="margin-bottom: 5px;">a.n. Kepala Desa Banjarsari</div>
-            <div>Sekretaris Desa</div>
-
+        <!-- Tanda Tangan Kiri (Pemohon) -->
+        <div class="signature-box">
+            <div style="margin-bottom: 30px;">Pemohon</div>
+            <div class="signature-space"></div>
             <div class="signature-name">
-                {{ $penandatangan ?? 'RESTY FITRIANA' }}
+                {{-- Mengambil nama pemohon dari akun user yang login / mengajukan --}}
+                {{ isset($pengajuan->user->name) ? strtoupper($pengajuan->user->name) : '.........................' }}
+            </div>
+        </div>
+
+        {{-- margin-top: 70px;
+            font-weight: bold;
+            text-decoration: underline;
+            text-transform: uppercase; --}}
+        <!-- Tanda Tangan Kanan (Kades) -->
+        <div class="signature-box">
+            <div>Banjarsari, {{ date('d F Y') }}</div>
+            
+            @if(isset($jabatan_penandatangan) && $jabatan_penandatangan != 'Kepala Desa')
+                <div style="margin-bottom: 2px;">a.n Kepala Desa Banjarsari</div>
+                <div style="margin-bottom: 5px;">{{ $jabatan_penandatangan }}</div>
+            @else
+                <div style="margin-bottom: 5px;">Kepala Desa Banjarsari</div>
+            @endif
+            <div class="signature-space"></div>
+            <div class="signature-name">
+                {{ $penandatangan ?? 'EDI SOPANDI' }}
             </div>
         </div>
     </div>

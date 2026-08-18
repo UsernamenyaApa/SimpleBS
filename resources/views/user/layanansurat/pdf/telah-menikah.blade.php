@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <title>{{ $title ?? 'Surat Keterangan Tidak Mampu' }}</title>
+    <title>{{ $title ?? 'Surat Keterangan Telah Menikah' }}</title>
     <style>
         body {
             font-family: "Times New Roman", Times, serif;
@@ -11,7 +11,7 @@
             margin: 0;
         }
 
-        /* Wrapper halaman → margin kiri kanan disamakan dengan contoh */
+        /* Wrapper halaman */
         .page-wrapper {
             margin: 0 35px;
         }
@@ -57,6 +57,7 @@
         }
         .nomor-surat {
             margin-top: 2px;
+            text-transform: uppercase;
         }
 
         /* Konten */
@@ -70,15 +71,15 @@
             margin-left: 40px; 
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
         }
         .table-data td {
             vertical-align: top;
             padding: 2px 0;
         }
         .label {
-            width: 180px; /* Lebar label disesuaikan */
+            width: 200px; /* Sedikit lebih lebar untuk penomoran 1. Nama */
         }
         .colon {
             width: 20px;
@@ -98,7 +99,7 @@
         .signature-right {
             display: table-cell;
             width: 50%;
-            text-align: center; /* Sesuai PDF SKTM source: 10, posisi rata tengah di kanan */
+            text-align: center;
             vertical-align: top;
         }
         .signature-name {
@@ -108,7 +109,7 @@
             text-transform: uppercase;
         }
         
-        /* Logo (Opsional) */
+        /* Logo */
         .logo-container {
             position: absolute;
             left: 0;
@@ -124,6 +125,7 @@
 
 <div class="page-wrapper">
 
+    {{-- KOP SURAT --}}
     <div class="header">
         <div class="logo-container">
             <img src="{{ public_path('logosurat.png') }}" alt="Logo Desa">
@@ -137,79 +139,113 @@
 
     <div class="line-container"></div>
 
+    {{-- JUDUL SURAT --}}
     <div class="title-container">
-        <u>SURAT KETERANGAN TIDAK MAMPU</u>
-        <div class="nomor-surat">Nomor: {{ $pengajuan->nomor_surat ?? '145.1/.../VII/Ds.-2017' }}</div>
+        <u>SURAT KETERANGAN TELAH MENIKAH</u>
+        <div class="nomor-surat">NOMOR : {{ $pengajuan->nomor_surat ?? '474.2/......./II/DS-'.date('Y') }}</div>
     </div>
 
+    {{-- ISI SURAT --}}
     <div class="content">
         <p>Yang bertanda tangan di bawah ini Kepala Desa Banjarsari Kecamatan Bayongbong Kabupaten Garut, dengan ini menerangkan bahwa :</p>
 
+        {{-- DATA SUAMI --}}
         <table class="table-data">
             <tr>
-                <td class="label">Nama</td>
+                <td class="label">1. Nama</td>
                 <td class="colon">:</td>
                 <td style="text-transform: uppercase;">{{ $pengajuan->data['nama'] ?? '-' }}</td>
             </tr>
             <tr>
-                <td class="label">Tempat/Tanggal Lahir</td>
+                <td class="label">&nbsp;&nbsp;&nbsp; Tempat/Tanggal Lahir</td>
                 <td class="colon">:</td>
-                <td style="text-transform: uppercase;">{{ $pengajuan->data['ttl'] ?? '-' }}</td>
+                <td style="text-transform: uppercase;">{{ $pengajuan->data['ttl_suami'] ?? '-' }}</td>
             </tr>
             <tr>
-                <td class="label">Jenis Kelamin</td>
+                <td class="label">&nbsp;&nbsp;&nbsp; Jenis Kelamin</td>
                 <td class="colon">:</td>
-                <td style="text-transform: uppercase;">{{ $pengajuan->data['jenis_kelamin'] ?? '-' }}</td>
+                <td style="text-transform: uppercase;">LAKI-LAKI</td>
             </tr>
             <tr>
-                <td class="label">Pekerjaan</td>
+                <td class="label">&nbsp;&nbsp;&nbsp; Agama</td>
                 <td class="colon">:</td>
-                <td style="text-transform: uppercase;">{{ $pengajuan->data['pekerjaan'] ?? '-' }}</td>
+                <td style="text-transform: uppercase;">{{ $pengajuan->data['agama_suami'] ?? '-' }}</td>
             </tr>
             <tr>
-                <td class="label">Status</td>
+                <td class="label">&nbsp;&nbsp;&nbsp; Kewarganegaraan</td>
                 <td class="colon">:</td>
-                <td style="text-transform: uppercase;">{{ $pengajuan->data['status'] ?? '-' }}</td>
+                <td style="text-transform: uppercase;">{{ $pengajuan->data['kewarganegaraan_suami'] ?? 'INDONESIA' }}</td>
             </tr>
             <tr>
-                <td class="label">Agama</td>
-                <td class="colon">:</td>
-                <td style="text-transform: uppercase;">{{ $pengajuan->data['agama'] ?? '-' }}</td>
-            </tr>
-            <tr>
-                <td class="label">NIK</td>
-                <td class="colon">:</td>
-                <<td>{{ $pengajuan->data['nik'] ?? '-' }}</td>
-            </tr>
-            <tr>
-                <td class="label">Kewarganegaraan</td>
-                <td class="colon">:</td>
-                <td style="text-transform: uppercase;">{{ $pengajuan->data['kewarganegaraan'] ?? 'INDONESIA' }}</td>
-            </tr>
-            <tr>
-                <td class="label">Alamat</td>
+                <td class="label">&nbsp;&nbsp;&nbsp; Alamat</td>
                 <td class="colon">:</td>
                 <td style="text-transform: uppercase;">
-                    {{ $pengajuan->data['alamat'] ?? '-' }}
+                    {{ $pengajuan->data['alamat_suami'] ?? '-' }}
+                </td>
+            </tr>
+        </table>
+
+        {{-- DATA ISTRI --}}
+        <table class="table-data" style="margin-top: 10px;">
+            <tr>
+                <td class="label">2. Nama</td>
+                <td class="colon">:</td>
+                <td style="text-transform: uppercase;">{{ $pengajuan->data['nama_istri'] ?? '-' }}</td>
+            </tr>
+            <tr>
+                <td class="label">&nbsp;&nbsp;&nbsp; Tempat/Tanggal Lahir</td>
+                <td class="colon">:</td>
+                <td style="text-transform: uppercase;">{{ $pengajuan->data['ttl_istri'] ?? '-' }}</td>
+            </tr>
+            <tr>
+                <td class="label">&nbsp;&nbsp;&nbsp; Jenis Kelamin</td>
+                <td class="colon">:</td>
+                <td style="text-transform: uppercase;">PEREMPUAN</td>
+            </tr>
+            <tr>
+                <td class="label">&nbsp;&nbsp;&nbsp; Agama</td>
+                <td class="colon">:</td>
+                <td style="text-transform: uppercase;">{{ $pengajuan->data['agama_istri'] ?? '-' }}</td>
+            </tr>
+            <tr>
+                <td class="label">&nbsp;&nbsp;&nbsp; Kewarganegaraan</td>
+                <td class="colon">:</td>
+                <td style="text-transform: uppercase;">{{ $pengajuan->data['kewarganegaraan_istri'] ?? 'INDONESIA' }}</td>
+            </tr>
+            <tr>
+                <td class="label">&nbsp;&nbsp;&nbsp; Alamat</td>
+                <td class="colon">:</td>
+                <td style="text-transform: uppercase;">
+                    {{ $pengajuan->data['alamat_istri'] ?? '-' }}
                 </td>
             </tr>
         </table>
 
         <p>
-            Yang tersebut di atas berdasarkan keterangan dari ketua rt/rw setempat dan menurut data yang ada pada kami, adalah benar-benar warga kami, yang tergolong dalam keluarga tidak mampu (Pra-Ks).
+            Yang tersebut diatas berdasarkan keterangan dari petugas pencatat pernikahan dan menurut data yang ada pada kami, adalah benar-benar <b><i>TELAH MENIKAH Pada TAHUN {{ $pengajuan->data['tahun_nikah'] ?? '....' }}</i></b> di {{ strtoupper($pengajuan->data['tempat_nikah'] ?? '.......') }}.
         </p>
 
         <p>
-            Demikian surat keterangan ini kami buat, agar yang berkepentingan mengetahui dan untuk dipergunakan sebagaimana mestinya.
+            Demikian surat keterangan ini dibuat, agar yang berkepentingan mengetahui dan memakluminya.
         </p>
     </div>
 
+    {{-- TANDA TANGAN --}}
     <div class="signature-container">
-        <div class="signature-box"></div>
+        <div class="signature-box">
+            {{-- Space kosong --}}
+        </div>
         <div class="signature-right">
-            <div>Banjarsari, {{ date('d F Y') }}</div> 
-            
-            <div style="margin-bottom: 5px;">Kepala desa Banjarsari</div>
+            {{-- Contoh format A.n (Atas Nama) seperti di gambar --}}
+            @if(isset($jabatan_penandatangan) && $jabatan_penandatangan != 'Kepala Desa')
+                <div>A.n.</div>
+                <div>Banjarsari, {{ date('d F Y') }}</div>
+                <div style="margin-bottom: 2px;">Kepala Desa Banjarsari</div>
+                <div style="margin-bottom: 5px;">{{ $jabatan_penandatangan }}</div> {{-- Misal: KaPem / Kasi Pemerintahan --}}
+            @else
+                <div>Banjarsari, {{ date('d F Y') }}</div>
+                <div style="margin-bottom: 5px;">Kepala Desa Banjarsari</div>
+            @endif
             
             <div class="signature-name">
                 {{ $penandatangan ?? 'EDI SOPANDI' }}

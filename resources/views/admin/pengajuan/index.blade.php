@@ -72,26 +72,28 @@
 
                     <tbody class="divide-y bg-white">
                         @foreach ($pengajuans as $p)
-                            <tr class="hover:bg-gray-50 transition">
+                            <tr class="hover:bg-gray-50 transition align-top">
 
                                 {{-- ID --}}
-                                <td class="py-3 px-4 font-semibold text-gray-700">
+                                <td class="py-3 px-4 font-semibold text-gray-700 whitespace-nowrap">
                                     #U{{ $p->id }}
                                 </td>
 
                                 {{-- Nama + Avatar --}}
-                                <td class="py-3 px-4 flex items-center gap-3">
-                                    <img class="w-10 h-10 rounded-full object-contain border-2 border-gray-100"
-                                         src="https://ui-avatars.com/api/?name={{ urlencode($p->user->name) }}&background=random&color=fff"
-                                         alt="{{ $p->user->name }}" />
+                                <td class="py-3 px-4 min-w-[220px]">
+                                    <div class="flex items-start gap-3 min-w-0">
+                                        <img class="w-10 h-10 rounded-full object-contain border-2 border-gray-100 shrink-0"
+                                             src="https://ui-avatars.com/api/?name={{ urlencode($p->user->name) }}&background=random&color=fff"
+                                             alt="{{ $p->user->name }}" />
 
-                                    <span class="font-medium text-gray-800">
-                                        {{ $p->user->name }}
-                                    </span>
+                                        <span class="font-medium text-gray-800 break-words leading-snug">
+                                            {{ $p->user->name }}
+                                        </span>
+                                    </div>
                                 </td>
 
                                 {{-- Jenis Surat --}}
-                                <td class="py-3 px-4 capitalize text-gray-700">
+                                <td class="py-3 px-4 capitalize text-gray-700 min-w-[180px] break-words">
                                     {{ $p->title ?? str_replace('-', ' ', $p->slug) }}
                                 </td>
 

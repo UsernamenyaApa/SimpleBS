@@ -1,27 +1,28 @@
-<nav x-data="{ open: false }" class="bg-white border-r border-gray-200 fixed left-0 top-0 h-screen w-64 flex flex-col justify-between z-50 hidden lg:flex">
-    
-    <!-- Bagian Atas: Logo & Menu -->
-    <div>
-        <!-- Logo Area -->
-        <div class="flex items-center px-6 h-20 border-b border-gray-50">
-            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3">
-                <!-- Logo Icon -->
-                <img src="{{ asset('images/asset/Logo-coloured.png') }}" 
-                    alt="Ilustrasi Background" 
-                    class="w-8 h-9 object-cover object-centermix-blend-multiply">
-                <span class="font-bold text-xl text-gray-900 tracking-tight">SimpelBS</span>
-            </a>
-        </div>
+<div x-data="{ open: false }">
+    <nav class="bg-white border-r border-gray-200 fixed left-0 top-0 h-screen w-64 flex flex-col justify-between z-50 hidden lg:flex">
+        
+        <!-- Bagian Atas: Logo & Menu -->
+        <div>
+            <!-- Logo Area -->
+            <div class="flex items-center px-6 h-20 border-b border-gray-50">
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3">
+                    <!-- Logo Icon -->
+                    <img src="{{ asset('images/asset/Logo-coloured.png') }}" 
+                        alt="Ilustrasi Background" 
+                        class="w-8 h-9 object-cover object-centermix-blend-multiply">
+                    <span class="font-bold text-xl text-gray-900 tracking-tight">SimpelBS</span>
+                </a>
+            </div>
 
-        <!-- Menu Links -->
-        <div class="px-4 py-6 space-y-1">
-            
-            <!-- Dashboard Link (Active State sesuai gambar) -->
-            <a href="{{ route('admin.dashboard') }}" 
-                class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group {{ request()->routeIs('admin.dashboard') ? 'bg-green-50 text-green-700 font-semibold shadow-sm ring-1 ring-green-100' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900' }}">
-                <i class="{{ request()->routeIs('admin.dashboard') ? 'fas fa-th-large' : 'fas fa-th-large' }} w-5 text-center {{ request()->routeIs('admin.dashboard') ? 'text-green-600' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
-                <span>Dashboard</span>
-            </a>
+            <!-- Menu Links -->
+            <div class="px-4 py-6 space-y-1">
+                
+                <!-- Dashboard Link (Active State sesuai gambar) -->
+                <a href="{{ route('admin.dashboard') }}" 
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 group {{ request()->routeIs('admin.dashboard') ? 'bg-green-50 text-green-700 font-semibold shadow-sm ring-1 ring-green-100' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900' }}">
+                    <i class="fas fa-th-large w-5 text-center {{ request()->routeIs('admin.dashboard') ? 'text-green-600' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
+                    <span>Dashboard</span>
+                </a>
 
             <!-- Data Pengajuan -->
             <a href="{{ route('admin.pengajuan.index') }}" 
@@ -102,12 +103,17 @@
         <span class="font-bold text-lg text-gray-900">SimpelBS</span>
     </div>
     <button @click="open = !open" class="text-gray-500 hover:text-gray-900 p-2">
-        <i class="fas fa-bars text-xl"></i>
+        <template x-if="!open">
+            <i class="fas fa-bars text-xl"></i>
+        </template>
+        <template x-if="open">
+            <i class="fas fa-times text-xl"></i>
+        </template>
     </button>
 </div>
 
 <!-- Mobile Menu Sidebar (Offcanvas) -->
-<div x-data="{ open: false }" 
+<div 
      @keydown.window.escape="open = false" 
      x-show="open" 
      class="relative z-50 lg:hidden" 
@@ -146,10 +152,18 @@
              <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.dashboard') ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-600' }}">
                  <i class="fas fa-th-large w-5"></i> Dashboard
              </a>
+             <a href="{{ route('admin.pengajuan.index') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.pengajuan.index') ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-600' }}">
+                 <i class="fas fa-clipboard-list w-5"></i> Data Pengajuan
+             </a>
              <a href="{{ route('verification.list') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg {{ request()->routeIs('verification.list') ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-600' }}">
                  <i class="fas fa-users w-5"></i> Data User
              </a>
-             <!-- Tambahkan menu lain di sini -->
+             <form method="POST" action="{{ route('logout') }}">
+                 @csrf
+                 <button type="submit" class="w-full text-left flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 font-semibold">
+                     <i class="fas fa-sign-out-alt w-5"></i> Logout
+                 </button>
+             </form>
          </div>
     </div>
 </div>

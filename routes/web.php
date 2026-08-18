@@ -16,7 +16,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+Route::get('/panduan-pengguna', function () {
+    return view('panduan-pengguna');
+})->name('panduan.pengguna');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

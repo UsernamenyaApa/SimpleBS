@@ -15,13 +15,21 @@ class LayananPersuratanController extends Controller
         'kedatangan' => 'Kedatangan',
         'kelahiran' => 'Akta Kelahiran',
         'kematian' => 'Akta Kematian',
-        'domisili' => 'Surat Keterangan Domisili',
-        'usaha' => 'Surat Keterangan Usaha',
-        'sktm' => 'Surat Keterangan Tidak Mampu',
-        'penghasilan' => 'Surat Keterangan Penghasilan',
-        'ktp-sementara' => 'Surat Keterangan KTP Sementara',
-        'domisili-usaha' => 'Surat Keterangan Domisili Usaha',
         'skck' => 'Pengantar Permohonan SKCK',
+        'sktm' => 'Surat Keterangan Tidak Mampu',
+        'domisili-usaha' => 'Surat Keterangan Domisili Usaha',
+        'ktp-sementara' => 'Surat Keterangan KTP Sementara',
+        'kelakuan-baik' => 'Surat Keterangan Berkelakuan Baik',
+        'yatim' => 'Surat Keterangan Yatim',
+        'izin-orang-tua' => 'Surat Izin Orang Tua',
+        'belum-menikah' => 'Keterangan Belum Menikah',
+        'tanah-tidak-sengketa' => 'Ket. Tanah Tidak Sengketa',
+        'usaha' => 'Surat Keterangan Usaha',
+        'penghasilan' => 'Surat Keterangan Penghasilan',
+        'telah-menikah' => 'Surat Keterangan Telah Menikah',
+
+        'penerimaan-jenazah' => 'Keterangan Penerimaan Jenazah',
+        'domisili' => 'Surat Keterangan Domisili',
     ];
 
     public function index()
