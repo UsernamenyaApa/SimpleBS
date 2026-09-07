@@ -62,7 +62,7 @@ class LayananPersuratanController extends Controller
 
         $request->validate([
             'nama' => 'required|string|max:255',
-            'files.*' => 'file|mimes:jpg,jpeg,png,pdf,doc,docx,zip,rar|max:51200',
+            'files.*' => 'file|mimes:jpg,jpeg,png,pdf,doc,docx|max:5120',
         ]);
 
         $userId = auth()->id();
@@ -72,12 +72,28 @@ class LayananPersuratanController extends Controller
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
 
-                $path = $file->store("pengajuan/$slug/$userId", 'public');
+                $extension = strtolower($file->getClientOriginalExtension());
+                $fileName = time() . '_' . uniqid() . '.' . $extension;
+                $relativeDir = "pengajuan/$slug/$userId";
+                $uploadPath = storage_path("app/public/$relativeDir");
+
+                if (!file_exists($uploadPath)) {
+                    mkdir($uploadPath, 0755, true);
+                }
+
+                $fullFilePath = $uploadPath . '/' . $fileName;
+
+                if (in_array($extension, ['jpg', 'jpeg', 'png'])) {
+                    $this->compressImage($file->getRealPath(), $fullFilePath, $extension, 75);
+                } else {
+                    
+                    $file->move($uploadPath, $fileName);
+                }
 
                 $storedFiles[] = [
-                    'path' => $path,
+                    'path' => "$relativeDir/$fileName",
                     'original_name' => $file->getClientOriginalName(),
-                    'size' => $file->getSize(),
+                    'size' => file_exists($fullFilePath) ? filesize($fullFilePath) : $file->getSize(),
                     'mime' => $file->getClientMimeType(),
                 ];
             }
@@ -121,5 +137,50 @@ class LayananPersuratanController extends Controller
         $pdf = PDF::loadHTML($viewHtml)->setPaper('a4', 'portrait');
 
         return $pdf->download($pengajuan->slug . '-' . $pengajuan->id . '.pdf');
+    }
+
+    private function compressImage($source, $destination, $extension, $quality = 75)
+    {
+        // Buka gambar berdasarkan format aslinya
+        if (in_array($extension, ['jpg', 'jpeg'])) {
+            $srcImage = @imagecreatefromjpeg($source);
+        } elseif ($extension === 'png') {
+            $srcImage = @imagecreatefrompng($source);
+        } else {
+            copy($source, $destination);
+            return;
+        }
+
+        if (!$srcImage) {
+            copy($source, $destination);
+            return;
+        }
+
+        // 1. Dapatkan dimensi asli
+        $origWidth  = imagesx($srcImage);
+        $origHeight = imagesy($srcImage);
+
+        // 2. Batasi lebar maksimal 1200px (Sangat cukup & jelas untuk KTP/KK/Surat)
+        $maxWidth = 1200;
+
+        if ($origWidth > $maxWidth) {
+            $newWidth  = $maxWidth;
+            $newHeight = floor($origHeight * ($maxWidth / $origWidth));
+        } else {
+            $newWidth  = $origWidth;
+            $newHeight = $origHeight;
+        }
+
+        // 3. Buat canvas baru dan resize
+        $dstImage = imagecreatetruecolor($newWidth, $newHeight);
+
+        // Jika gambar PNG transparan, ubah background-nya jadi putih
+        $white = imagecolorallocate($dstImage, 255, 255, 255);
+        imagefill($dstImage, 0, 0, $white);
+
+        imagecopyresampled($dstImage, $srcImage, 0, 0, 0, 0, $newWidth, $newHeight, $origWidth, $origHeight);
+
+        // 4. Simpan SEMUA gambar sebagai JPEG berkualitas 75%
+        imagejpeg($dstImage, $destination, $quality);
     }
 }

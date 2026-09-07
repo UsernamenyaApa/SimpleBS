@@ -28,6 +28,10 @@ class PengajuanSuratController extends Controller
             $query->whereDate('created_at', '<=', $request->end_date);
         }
 
+        if (!$request->start_date && !$request->end_date && !$request->search) {
+            $query->whereDate('created_at', '>=', now()->subDays(30));
+        }
+
         // Search by nama & jenis surat
         if ($request->search) {
             $query->where(function($q) use ($request) {
