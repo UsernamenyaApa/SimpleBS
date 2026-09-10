@@ -85,7 +85,7 @@ class LayananPersuratanController extends Controller
 
         $formData = $request->except(['_token', 'files']);
 
-        PengajuanSurat::create([
+        $pengajuan = PengajuanSurat::create([
             'user_id'  => $userId,
             'slug'     => $slug,
             'title'    => $this->layananList[$slug],
@@ -93,6 +93,11 @@ class LayananPersuratanController extends Controller
             'files'    => $storedFiles,
             'status'   => 'pending',
         ]);
+
+        if (auth()->user()->role === 'mesin') {
+            return redirect()->route('machine.submitted', $pengajuan)
+                ->with('success', 'Pengajuan berhasil direkam. Silakan unduh dokumen untuk dicetak.');
+        }
 
         return redirect()
             ->back()
@@ -107,7 +112,7 @@ class LayananPersuratanController extends Controller
         $pengajuan = PengajuanSurat::findOrFail($id);
 
         // Hanya admin atau pemilik
-        if (!auth()->user()->is_admin && $pengajuan->user_id !== auth()->id()) {
+        if (auth()->user()->role !== 'admin' && $pengajuan->user_id !== auth()->id()) {
             abort(403);
         }
 

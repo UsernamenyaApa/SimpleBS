@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\WhatsappTrait;
 use PDF;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Shared\Html;
 
 class PengajuanSuratController extends Controller
 {
@@ -24,6 +27,10 @@ class PengajuanSuratController extends Controller
         if ($request->end_date) {
             $query->whereDate('created_at', '<=', $request->end_date);
         }
+
+        // if (!$request->start_date && !$request->end_date && !$request->search) {
+        //     $query->whereDate('created_at', '>=', now()->subDays(30));
+        // }
 
         // Search by nama & jenis surat
         if ($request->search) {
@@ -132,4 +139,52 @@ class PengajuanSuratController extends Controller
 
         return $pdf->download("surat-$slug-{$pengajuan->id}.pdf");
     }
+
+    public function downloadWord($id)
+    {
+        $pengajuan = PengajuanSurat::findOrFail($id);
+
+        $slug = $pengajuan->slug;
+        $view = "admin.layanansurat.word.$slug";
+
+        if (!view()->exists($view)) {
+            abort(404, "Template surat ($slug) tidak ditemukan.");
+        }
+
+        // Render HTML Blade
+        $html = view($view, [
+            'pengajuan' => $pengajuan,
+            'data'      => $pengajuan->data,
+            'files'     => $pengajuan->files,
+            'title'     => $pengajuan->title,
+        ])->render();
+
+        // Inisialisasi PHPWord
+        $phpWord = new PhpWord();
+        
+        
+        // Atur Margin Halaman (Standard A4 / F4)
+        $section = $phpWord->addSection([
+            'marginTop'    => 1134, // 2 cm
+            'marginBottom' => 1134,
+            'marginLeft'   => 1134,
+            'marginRight'  => 1134,
+        ]);
+
+        // Parse HTML Blade ke dalam PHPWord Section
+        Html::addHtml($section, $html, false, false);
+
+        // Simpan ke bentuk stream download (.docx)
+        $fileName = "surat-{$slug}-{$pengajuan->id}.docx";
+        $tempFile = tempnam(sys_get_temp_dir(), 'word_');
+
+        $writer = IOFactory::createWriter($phpWord, 'Word2007');
+        $writer->save($tempFile);
+
+        return response()->download($tempFile, $fileName, [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        ])->deleteFileAfterSend(true);
+    }
+    
+     
 }

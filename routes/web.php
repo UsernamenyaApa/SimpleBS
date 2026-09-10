@@ -6,6 +6,7 @@ use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\LayananController;
 use App\Http\Controllers\User\LayananPersuratanController;
 use App\Http\Controllers\User\RiwayatController;
+use App\Http\Controllers\Machine\MachineController;
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PengajuanSuratController;
@@ -52,6 +53,15 @@ Route::middleware(['auth', 'userMiddleware'])->group(function (){
 
 });
 
+// Kiosk desa: semua pengajuan dibuat atas akun mesin dan hanya muncul di riwayat mesin.
+Route::middleware(['auth', 'machineMiddleware'])->prefix('mesin')->name('machine.')->group(function () {
+    Route::get('/', [MachineController::class, 'home'])->name('home');
+    Route::get('/history', [MachineController::class, 'history'])->name('history');
+    Route::get('/pengajuan/{pengajuan}/selesai', [MachineController::class, 'submitted'])->name('submitted');
+    Route::get('/pengajuan/{pengajuan}/pdf', [MachineController::class, 'downloadPdf'])->name('download.pdf');
+    Route::get('/pengajuan/{pengajuan}/word', [MachineController::class, 'downloadWord'])->name('download.word');
+});
+
 // admin routes
 Route::middleware(['auth', 'adminMiddleware'])->group(function (){
 
@@ -71,5 +81,6 @@ Route::middleware(['auth', 'adminMiddleware'])->group(function (){
     Route::get('/admin/pengajuan/{id}', [PengajuanSuratController::class, 'show'])->name('admin.pengajuan.show');
     Route::post('/admin/pengajuan/{id}/approve', [PengajuanSuratController::class, 'approve'])->name('admin.pengajuan.approve');
     Route::post('/admin/pengajuan/{id}/reject', [PengajuanSuratController::class, 'reject'])->name('admin.pengajuan.reject');
-    Route::get('/admin/pengajuan/{id}/download', [PengajuanSuratController::class, 'download'])->name('admin.pengajuan.download');
+    Route::get('/admin/pengajuan/{id}/download', [PengajuanSuratController::class, 'download'])->name('admin.pengajuan.download-pdf');
+    Route::get('/admin/pengajuan/{id}/download-word', [PengajuanSuratController::class, 'downloadWord'])->name('admin.pengajuan.download-word');
 });

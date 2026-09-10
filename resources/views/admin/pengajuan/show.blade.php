@@ -216,10 +216,19 @@
                 {{-- Jika sudah APPROVED → tampilkan tombol download --}}
                 @elseif(in_array($status, ['verified', 'disetujui', 'approved']))
                     
-                    <a href="{{ route('admin.pengajuan.download', $pengajuan->id) }}"
-                        class="w-full inline-flex items-center justify-center px-6 py-3.5 bg-blue-600 text-white font-bold text-sm rounded-xl shadow-md hover:bg-blue-700 transition transform hover:-translate-y-0.5 hover:shadow-lg">
-                        <i class="fas fa-file-download mr-2"></i> Download Surat PDF
-                    </a>
+                   <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
+                        {{-- Tombol PDF --}}
+                        <a href="{{ route('admin.pengajuan.download-pdf', $pengajuan->id) }}"
+                            class="w-full inline-flex items-center justify-center px-5 py-3 bg-red-600 text-white font-semibold text-sm rounded-xl shadow-sm hover:bg-red-700 transition transform hover:-translate-y-0.5 hover:shadow-md">
+                            <i class="fas fa-file-pdf mr-2 text-base"></i> Download Surat PDF
+                        </a>
+
+                        {{-- Tombol Word --}}
+                        <a href="{{ route('admin.pengajuan.download-word', $pengajuan->id) }}" 
+                            class="w-full inline-flex items-center justify-center px-5 py-3 bg-blue-600 text-white font-semibold text-sm rounded-xl shadow-sm hover:bg-blue-700 transition transform hover:-translate-y-0.5 hover:shadow-md">
+                            <i class="fas fa-file-word mr-2 text-base"></i> Download Surat Word
+                        </a>
+                    </div>
 
                 @endif
             </div>

@@ -23,6 +23,8 @@
             {{-- Navigation --}}
             @if(Auth::user()->role === 'admin')
                 @include('layouts.navigation.admin')
+            @elseif(Auth::user()->role === 'mesin')
+                @include('layouts.navigation.machine')
             @else
                 @include('layouts.navigation.user')
             @endif
@@ -63,5 +65,15 @@
                 
             </div>
         </div>
+
+        @if(Auth::user()->role === 'mesin')
+            <script>
+                // Mesin pelayanan tidak menerima unggahan berkas. Setiap blok lampiran
+                // dihapus agar formulir fokus pada pengisian data dan pencetakan surat.
+                document.querySelectorAll('input[name="files[]"]').forEach((input) => {
+                    input.closest('.mb-8')?.remove();
+                });
+            </script>
+        @endif
     </body>
 </html>

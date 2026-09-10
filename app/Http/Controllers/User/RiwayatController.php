@@ -52,7 +52,7 @@ class RiwayatController extends Controller
 
     public function show($id)
     {
-        $surat = PengajuanSurat::findOrFail($id);
+        $surat = PengajuanSurat::where('user_id', Auth::id())->findOrFail($id);
 
         // Mapping status untuk tampilan
         $statusMap = [
@@ -67,7 +67,7 @@ class RiwayatController extends Controller
 
     public function download($id)
     {
-        $surat = PengajuanSurat::findOrFail($id);
+        $surat = PengajuanSurat::where('user_id', Auth::id())->findOrFail($id);
 
         if ($surat->status !== 'verified') {
             abort(403, 'File hanya bisa diunduh jika status Selesai.');

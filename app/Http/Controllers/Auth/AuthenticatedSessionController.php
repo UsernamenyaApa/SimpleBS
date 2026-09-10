@@ -35,6 +35,10 @@ class AuthenticatedSessionController extends Controller
             return redirect(route('admin.dashboard'));
         }
 
+        if ($user->role == 'mesin' && $user->status == 'approved') {
+            return redirect(route('machine.home'));
+        }
+
         // 2. Cek User
         if ($user->role == 'user') {
             // Cek jika status sudah disetujui

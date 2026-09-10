@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
         // Ini akan menjalankan kode dari AdminUserSeeder.php
         $this->call([
             AdminUserSeeder::class,
+            MachineUserSeeder::class,
             // Jika Anda punya seeder lain, tambahkan di sini
         ]);
     }

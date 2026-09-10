@@ -2,6 +2,35 @@
     <div class="bg-gray-100 min-h-screen font-sans">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
 
+            @if(Auth::user()->role === 'mesin')
+                {{-- HERO KHUSUS MESIN PELAYANAN --}}
+                <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-600 via-green-600 to-teal-700 px-6 py-8 sm:px-10 sm:py-10 text-white shadow-xl shadow-green-200">
+                    <div class="absolute -right-16 -top-20 h-64 w-64 rounded-full bg-white/10"></div>
+                    <div class="absolute right-24 bottom-0 h-32 w-32 rounded-full bg-yellow-300/15"></div>
+
+                    <div class="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+                        <div class="max-w-2xl">
+                            <div class="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-xs font-bold tracking-wide">
+                                <span class="h-2 w-2 rounded-full bg-green-200 animate-pulse"></span>
+                                MESIN PELAYANAN MANDIRI
+                            </div>
+                            <h1 class="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl">Buat surat lebih mudah, langsung dari kantor desa.</h1>
+                            <p class="mt-3 text-sm leading-relaxed text-green-50 sm:text-base">Pilih layanan, isi data warga dengan teliti, lalu unduh dokumen PDF atau Word untuk dicetak. Pengajuan tetap masuk ke antrean verifikasi admin.</p>
+
+                            <div class="mt-6 flex flex-wrap gap-3 text-sm font-medium">
+                                <span class="inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-2"><i class="fas fa-edit"></i> Isi formulir</span>
+                                <span class="inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-2"><i class="fas fa-download"></i> Unduh & cetak</span>
+                                <span class="inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-2"><i class="fas fa-user-shield"></i> Diverifikasi admin</span>
+                            </div>
+                        </div>
+
+                        <div class="hidden sm:flex h-36 w-36 shrink-0 items-center justify-center rounded-3xl border border-white/20 bg-white/10 text-6xl shadow-inner lg:h-40 lg:w-40">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                    </div>
+                </section>
+            @endif
+
             {{-- HEADER --}}
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
